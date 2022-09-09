@@ -96,13 +96,9 @@ int main(){
         root.emplaceBack(i);
         root.emplaceFront(i);
         root.print();
-        std::cout<<"Finish"<<std::endl;
     }   
     root.insert(5,100);
-
-    std::cout<<"Finish"<<std::endl;
     root.reversePrint();
-    std::cout<<"Finish"<<std::endl;
     root.print();
     return 0;
 }
