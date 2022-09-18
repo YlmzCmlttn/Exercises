@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-set (PROJECT_NAME Doubly_Linked_List)
+set (PROJECT_NAME Stack_Array_Implementation)
 project(${PROJECT_NAME} LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
