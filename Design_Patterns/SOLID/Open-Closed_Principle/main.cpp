@@ -61,23 +61,50 @@ public:
     }
 };
 
+template <typename T> class MultSpecification : public Specification<T>{
+public:
+    std::vector<Specification<T>*> m_Specifications;
+    MultSpecification()=default;
+    MultSpecification(std::initializer_list<Specification<T>*> list){
+        for(auto& specs : list )
+        {
+            m_Specifications.push_back(std::move(specs));
+        }
+    }
 
+    bool isSatisfied(const T* item)const override{
+        for(auto& specs : m_Specifications ){
+            if(!(specs->isSatisfied(item))){
+                return false;
+            }
+        }
+        return true;
+    }
+};
 int main(){
     Vehicle car1{"Mercedes",Color::White,Type::Sedan};
     Vehicle car2{"Seat",Color::Red,Type::SUV};
     Vehicle car3{"Togg",Color::Green,Type::SUV};
+    MultSpecification<Vehicle> mult;
 
     std::vector<Vehicle*> all{&car1,&car2,&car3};
-
-    VehicleTypeSpecification suv(Type::SUV);
-    VehicleColorSpecification green(Color::Green);
-    AndSpecification<Vehicle> green_and_suv{ suv, green };
+    {
+    VehicleTypeSpecification* suv =  new VehicleTypeSpecification(Type::SUV);
+    VehicleColorSpecification* green =  new VehicleColorSpecification(Color::Green);
+    //AndSpecification<Vehicle> green_and_suv{ suv, green };
+    mult = MultSpecification<Vehicle>({suv,green});
+    }
+    for(Vehicle* v : all){
+        if(mult.isSatisfied(v)){
+            std::cout<<v->m_ModelName<<std::endl;
+        }
+    }
 
     VehicleFilter vf;
 
-    auto big_green_things = vf.filter(all, green_and_suv);
-    for (auto& x : big_green_things)
-        std::cout << x->m_ModelName<<std::endl;
+    // auto big_green_things = vf.filter(all, green_and_suv);
+    // for (auto& x : big_green_things)
+    //     std::cout << x->m_ModelName<<std::endl;
     
     return 0;
 }
