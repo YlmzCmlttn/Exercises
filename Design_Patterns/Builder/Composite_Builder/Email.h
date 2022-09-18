@@ -1,13 +1,16 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include <iostream>
 class EmailBuilder;
+class EmailHeaderBuilder;
+class EmailBodyBuilder;
 class Email
 {
 public:
-    friend class EmailBuilder;
-    friend class EmailHeaderBuilder;
-    friend class EmailBodyBuilder;
+    friend EmailBuilder;
+    friend EmailHeaderBuilder;
+    friend EmailBodyBuilder;
     friend std::ostream &operator<<(std::ostream &os, const Email &obj);
     static EmailBuilder create();
 private:

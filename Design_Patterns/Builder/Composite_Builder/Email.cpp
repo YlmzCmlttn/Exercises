@@ -1,6 +1,7 @@
 #include "Email.h"
 #include "EmailBuilder.h"
 EmailBuilder Email::create(){
+    std::cout<<"Email::create()"<<std::endl;
     return EmailBuilder{};
 }
 std::ostream &operator<<(std::ostream &os, const Email &obj){
